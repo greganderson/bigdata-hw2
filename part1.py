@@ -1,6 +1,5 @@
 from pyspark import SparkContext, SparkConf
 from numpy import matrix, array
-import re
 
 
 ### CONFIGURATION ###
@@ -23,7 +22,13 @@ v = sc.textFile('matrices/xx_100.txt')
 v_rdd = v.map(lambda x: float(x))
 vv = matrix(v_rdd.collect())
 # Split then convert strings to numbers
+<<<<<<< HEAD
 rdd = f.map(lambda s: s.split(' ')).map(lambda row: (int(row[0]) / blocksize, [float(row[2])])).reduceByKey(lambda a,b: a+b).map(lambda (k,v): v)
+=======
+rdd = f.map(lambda s: s.split(' ')) \
+			 .map(lambda row: (int(row[0]) / blocksize, [int(row[0]), int(row[1]), float(row[2])])) \
+			 .groupByKey()
+>>>>>>> 767ed134f42c77e614789666031bc17ac714f169
 
 #result = rdd.collect()
 result = vv * matrix(rdd.collect())
