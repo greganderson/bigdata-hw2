@@ -1,6 +1,5 @@
 from pyspark import SparkContext, SparkConf
 
-
 ### CONFIGURATION ###
 
 conf = SparkConf()
@@ -13,13 +12,12 @@ sc = SparkContext(conf=conf)
 blocksize = 5
 
 
-### CODE STARTS ###
+#### CODE STARTS ###
 
 f = sc.textFile('matrices/a_100x200.txt')
 
 # Split then convert strings to numbers
 rdd = f.map(lambda s: s.split(' ')).map(lambda row: [int(row[0]), int(row[1]), float(row[2])])
-
 
 result = rdd.collect()
 
