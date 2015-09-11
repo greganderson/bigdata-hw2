@@ -11,12 +11,7 @@ sc = SparkContext(conf=conf)
 
 def func(x):
 	row = x.split(' ')
-	if row[0] not in mat:
-		mat[row[0]] = {}
-	mat[row[0]] = {row[1] : row[2]}
-
-def func(x):
-	row = x.split(' ')
+	row = [int(row[0]), int(row[1]), float(row[2])]
 	if row[0] not in mat:
 		i = len(mat)
 		mat.append([])
