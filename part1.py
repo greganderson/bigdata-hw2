@@ -36,7 +36,6 @@ for v in data:
 # Put the matrices into rdd's
 matrix = sc.parallelize(mat.tolist())
 vector = sc.parallelize(vec.tolist())
-#vector = sc.parallelize(matrix(vec_raw.collect()).tolist())
 
 
 with open('test.txt', 'w') as fl:
