@@ -1,6 +1,5 @@
 from pyspark import SparkContext, SparkConf
 
-
 ### CONFIGURATION ###
 
 conf = SparkConf()
