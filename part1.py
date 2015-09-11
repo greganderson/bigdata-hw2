@@ -18,13 +18,11 @@ blocksize = 1
 f = sc.textFile('matrices/a_100x200.txt')
 v = sc.textFile('matrices/xx_200.txt')
 
-v_rdd = v.map(lambda x: float(x))
+v_rdd = v.map(lambda x: [float(x)])
 vv = matrix(v_rdd.collect())
 # Split then convert strings to numbers
 rdd = f.map(lambda s: s.split(' ')).map(lambda row: (int(row[0]) / blocksize, [float(row[2])])).reduceByKey(lambda a,b: a+b).map(lambda (k,v): v)
-rdd = f.map(lambda s: s.split(' ')).map(lambda row: [int(row[0]), int(row[1]), float(row[2])])
 
-#result = rdd.collect()
 result = matrix(rdd.collect()) * vv
 
 with open('test.txt', 'w') as fl:
