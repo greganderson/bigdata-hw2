@@ -13,16 +13,16 @@ sc = SparkContext(conf=conf)
 
 #### CODE STARTS ###
 
-f = sc.textFile('1x2.txt')
-g = sc.textFile('2x3.txt')
+#file1 = '1x2.txt'
+#file2 = '2x3.txt'
+file1 = 'matrices/a_100x200.txt'
+file2 = 'matrices/b_200x100.txt'
 
+f = sc.textFile(file1)
+g = sc.textFile(file2)
 
-# a = 4x3
-# b = 3x4
-# c = 4x4
-
-a_rows = 1
-b_cols = 3
+a_rows = 100
+b_cols = 100
 
 # Split then convert strings to numbers
 a = f.map(lambda s: s.split(' ')).map(lambda row: (int(row[0]), int(row[1]), float(row[2])))
@@ -39,7 +39,6 @@ zc = sc.parallelize(z)
 # Compute dot product
 a = zc.map(lambda (x, y): (x[0], x[1]*y[1]))
 answer = a.reduceByKey(lambda x, y: x+y)
-
 
 
 r = answer.sortByKey().collect()
