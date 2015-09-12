@@ -32,13 +32,15 @@ b = g.map(lambda s: s.split(' ')).map(lambda row: (int(row[0]), int(row[1]), flo
 r1 = a.flatMap(lambda (i, j, value): [((i, k), value) for k in range(b_cols)])
 r2 = b.flatMap(lambda (j, k, value): [((i, k), value) for i in range(a_rows)])
 
-
-
+# Pair the elements
 z = zip(r1.collect(), r2.collect())
 zc = sc.parallelize(z)
 
+# Compute dot product
 a = zc.map(lambda (x, y): (x[0], x[1]*y[1]))
 answer = a.reduceByKey(lambda x, y: x+y)
+
+
 
 r = answer.sortByKey().collect()
 with open('result.txt', 'w') as fl:
