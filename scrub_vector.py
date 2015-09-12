@@ -12,6 +12,8 @@ s, o = commands.getstatusoutput('cat ' + filename)
 # Extract the number from each line
 lines = map(lambda line: line[line.find(' ')+1:line.find(']')], o.split('\n'))
 
+i = 0
 with open('test.txt', 'w') as f:
 	for num in lines:
-		f.write(num + '\n')
+		f.write(str(i) + ' 0 ' + num + '\n')
+		i += 1
