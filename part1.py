@@ -41,3 +41,29 @@ vector = sc.parallelize(vec.tolist())
 
 with open('test.txt', 'w') as fl:
 	fl.write(str(result))
+
+
+
+
+
+
+
+
+
+
+
+
+# a = 4x3
+# b = 3x4
+# c = 4x4
+
+a_rows = 4
+b_cols = 4
+
+a = f.map(lambda s: s.split(' ')).map(lambda row: (int(row[0]), int(row[1]), float(row[2])))
+b = g.map(lambda s: s.split(' ')).map(lambda row: (int(row[0]), int(row[1]), float(row[2])))
+
+result_a = a.map(lambda (i, j, value): [((i, k), value) for k in range(b_cols)])
+result_b = b.map(lambda (i, j, value): [((i, k), value) for k in range(a_rows)])
+
+answer = result_a.reduceByKey(lambda x,y: x*y, result_b)
