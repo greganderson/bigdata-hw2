@@ -13,32 +13,33 @@ sc = SparkContext(conf=conf)
 
 #### CODE STARTS ###
 
-file1 = 'matrices/2x2a.txt'
+#file1 = 'matrices/2x2a.txt'
 #2x2a.txt
 #0 0 1
 #0 1 2
 #1 0 3
 #1 1 4
 
-file2 = 'matrices/2x2b.txt'
+#file2 = 'matrices/2x2b.txt'
 #2x2b.txt
 #0 0 5
 #0 1 6
 #1 0 7
 #1 1 8
 
-#file1 = 'matrices/1x2.txt'
-#file2 = 'matrices/2x3.txt'
+file1 = 'matrices/1x2.txt'
+file2 = 'matrices/2x3.txt'
 #file1 = 'matrices/a_100x200.txt'
 #file2 = 'matrices/b_200x100.txt'
 
 f = sc.textFile(file1)
 g = sc.textFile(file2)
 
-#a_rows = 100
-#b_cols = 100
-a_rows = 2
-b_cols = 2
+#The reason why it would throw an error for rdds not 
+# being the same size is because I kept forgetting to
+# change these variables to the correct size.
+a_rows = 1
+b_cols = 3
 
 
 # Split then convert strings to numbers
@@ -55,10 +56,10 @@ r2 = r2.sortByKey()
 
 #Change: zip r1 & r2 as rdds
 zc = r1.zip(r2)
+
 '''
 # Pair the elements
 z = zip(r1.collect(), r2.collect())
-#zc = r1.leftOuterJoin(r2)
 zc = sc.parallelize(z)
 '''
 
