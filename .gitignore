@@ -1,3 +1,5 @@
 graphs
 matrices
 *.swp
+*~
+*.txt
