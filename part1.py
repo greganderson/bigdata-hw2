@@ -65,6 +65,9 @@ answer.saveAsTextFile('result')
 
 
 
+m = #
+n = #
+p = #
 blocksize = 1
 
 a = f.map(lambda s: s.split(' ')).map(lambda row: (int(row[0]) / blocksize, ((int(row[0]), int(row[1])), float(row[2]))))
@@ -85,6 +88,21 @@ def dot_group(a, b):
 		for j in range(len(b)):
 			mat[i].append(dot(a[i], b[j]))
 	return mat
+
+
+	for i in range(len(a)):
+
+		# Create the vectors
+		r1 = []
+		for j in range(m):
+			r1.append(a[j][1])
+
+		for j in range(p):
+			r2 = []
+			for j in range(p):
+				r2.append(b[1])
+		
+			mat[i].append(dot(r1, r2))
 
 b = g.map(dot_group)
 		
