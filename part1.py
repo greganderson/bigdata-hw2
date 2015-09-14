@@ -79,10 +79,11 @@ def dot(a, b):
 
 
 def dot_group(a, b):
-	mat = [[]]
+	mat = []
 	for i in range(len(a)):
+		mat.append([])
 		for j in range(len(b)):
-			mat[i][j] = dot(a[i], b[j])
+			mat[i].append(dot(a[i], b[j]))
 	return mat
 
 b = g.map(dot_group)
