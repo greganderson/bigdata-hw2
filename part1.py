@@ -1,3 +1,4 @@
+import sys
 from pyspark import SparkContext, SparkConf
 from numpy import matrix, array, empty
 
@@ -13,16 +14,19 @@ sc = SparkContext(conf=conf)
 
 #### CODE STARTS ###
 
-#file1 = '1x2.txt'
-#file2 = '2x3.txt'
-file1 = 'matrices/a_100x200.txt'
-file2 = 'matrices/b_200x100.txt'
+if len(sys.argv) != 5:
+	print 'Invalid arguments.'
+	print 'Usage: spark-submit part1.py <matrix_file_1> <matrix_1_dimensions> <matrix_file_2> <matrix_2_dimensions>'
+	exit(1)
+
+file1 = sys.argv[1]
+file2 = sys.argv[3]
 
 f = sc.textFile(file1)
 g = sc.textFile(file2)
 
-a_rows = 100
-b_cols = 100
+a_rows = int(sys.argv[2][:sys.argv[2].find('x')])
+b_cols = int(sys.argv[4][:sys.argv[4].find('x')])
 
 # Split then convert strings to numbers
 a = f.map(lambda s: s.split(' ')).map(lambda row: (int(row[0]), int(row[1]), float(row[2])))
@@ -33,7 +37,7 @@ r1 = a.flatMap(lambda (i, j, value): [((i, k), value) for k in range(b_cols)])
 r2 = b.flatMap(lambda (j, k, value): [((i, k), value) for i in range(a_rows)])
 
 # Pair the elements
-z = zip(r1.collect(), r2.collect())
+z = zip(r1.sortByKey().collect(), r2.sortByKey().collect())
 zc = sc.parallelize(z)
 
 # Compute dot product
