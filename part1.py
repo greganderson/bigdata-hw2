@@ -45,7 +45,7 @@ a = zc.map(lambda (x, y): (x[0], x[1]*y[1]))
 answer = a.reduceByKey(lambda x, y: x+y)
 
 
-r = answer.sortByKey().collect()
-with open('result.txt', 'w') as fl:
-	fl.write(str(r))
-#answer.saveAsTextFile('result')
+#r = answer.sortByKey().collect()
+#with open('result.txt', 'w') as fl:
+	#fl.write(str(r))
+answer.saveAsTextFile('result')
