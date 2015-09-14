@@ -49,3 +49,57 @@ answer = a.reduceByKey(lambda x, y: x+y)
 #with open('result.txt', 'w') as fl:
 	#fl.write(str(r))
 answer.saveAsTextFile('result')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+blocksize = 1
+
+a = f.map(lambda s: s.split(' ')).map(lambda row: (int(row[0]) / blocksize, ((int(row[0]), int(row[1])), float(row[2]))))
+g = a.groupByKey()
+
+
+def dot(a, b):
+	total = 0
+	for i in range(len(a)):
+		total += a[i] * b[i]
+	return total
+
+
+def dot_group(a, b):
+	mat = [[]]
+	for i in range(len(a)):
+		for j in range(len(b)):
+			mat[i][j] = dot(a[i], b[j])
+	return mat
+
+b = g.map(dot_group)
+		
+
+
+
+
+
+
+
+def func(a, b):
+	for i in range(len(a)):
+		for j in range(len(b)):
+			# 
+
+
+
+
+
