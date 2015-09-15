@@ -14,6 +14,15 @@ sc = SparkContext(conf=conf)
 
 #### CODE STARTS ###
 
+
+def dot_product(x):
+	a = x[1][0]
+	b = x[1][1]
+	total = 0
+	for i in range(len(a)):
+		total += a[i] * b[i]
+	return total
+
 if len(sys.argv) != 5:
 	print 'Invalid arguments.'
 	print 'Usage: spark-submit part1.py <matrix_file_1> <matrix_1_dimensions> <matrix_file_2> <matrix_2_dimensions>'
@@ -36,16 +45,14 @@ b = g.map(lambda s: s.split(' ')).map(lambda row: (int(row[0]), int(row[1]), flo
 r1 = a.flatMap(lambda (i, j, value): [((i, k), value) for k in range(b_cols)])
 r2 = b.flatMap(lambda (j, k, value): [((i, k), value) for i in range(a_rows)])
 
-# Pair the elements
-z = zip(r1.sortByKey().collect(), r2.sortByKey().collect())
-zc = sc.parallelize(z)
+x = r1.groupByKey().map(lambda (x, y): (x, list(y)))
+y = r2.groupByKey().map(lambda (x, y): (x, list(y)))
+z = x.join(y)
 
-# Compute dot product
-a = zc.map(lambda (x, y): (x[0], x[1]*y[1]))
-answer = a.reduceByKey(lambda x, y: x+y)
+answer = z.map(dot_product)
 
 
-#r = answer.sortByKey().collect()
-#with open('result.txt', 'w') as fl:
-	#fl.write(str(r))
-answer.saveAsTextFile('result')
+r = answer.sortByKey().collect()
+with open('result.txt', 'w') as fl:
+	fl.write(str(r))
+#answer.saveAsTextFile('result')
