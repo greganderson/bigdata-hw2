@@ -21,7 +21,7 @@ def dot_product(x):
 	total = 0
 	for i in range(len(a)):
 		total += a[i] * b[i]
-	return total
+	return (x[0], total)
 
 if len(sys.argv) != 5:
 	print 'Invalid arguments.'
@@ -35,7 +35,8 @@ f = sc.textFile(file1)
 g = sc.textFile(file2)
 
 a_rows = int(sys.argv[2][:sys.argv[2].find('x')])
-b_cols = int(sys.argv[4][:sys.argv[4].find('x')])
+b_cols = int(sys.argv[4][sys.argv[4].find('x')+1:])
+
 
 # Split then convert strings to numbers
 a = f.map(lambda s: s.split(' ')).map(lambda row: (int(row[0]), int(row[1]), float(row[2])))
