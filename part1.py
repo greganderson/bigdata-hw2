@@ -1,6 +1,5 @@
 import sys
 from pyspark import SparkContext, SparkConf
-from numpy import matrix, array, empty
 
 ### CONFIGURATION ###
 
