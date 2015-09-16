@@ -21,7 +21,7 @@ def dot_product(x):
 	total = 0
 	for i in range(len(a)):
 		total += a[i] * b[i]
-	return total
+	return (x[0], total)
 
 if len(sys.argv) != 5:
 	print 'Invalid arguments.'
