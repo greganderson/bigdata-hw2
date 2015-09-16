@@ -33,10 +33,12 @@ file2 = sys.argv[3]
 f = sc.textFile(file1)
 g = sc.textFile(file2)
 
-sys.argv[2] = sys.argv[2].replace('K', '000')
-sys.argv[4] = sys.argv[4].replace('K', '000')
-a_rows = int(sys.argv[2][:sys.argv[2].find('x')])
-b_cols = int(sys.argv[4][sys.argv[4].find('x')+1:])
+dim1 = sys.argv[2]
+dim2 = sys.argv[4]
+dim1 = dim1.replace('K', '000')
+dim2 = dim2.replace('K', '000')
+a_rows = int(dim1[:dim1.find('x')])
+b_cols = int(dim2[dim2.find('x')+1:])
 
 
 # Split then convert strings to numbers
