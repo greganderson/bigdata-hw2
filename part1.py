@@ -31,7 +31,7 @@ file2 = 'matrices/2x2b.txt'
 #file2 = 'matrices/5x10.txt'
 #file1 = 'matrices/1x2.txt'
 #file2 = 'matrices/2x3.txt'
-file1 = 'matrices/a_100x200.txt'
+#file1 = 'matrices/a_100x200.txt'
 #file2 = 'matrices/b_200x100.txt'
 
 f = sc.textFile(file1)
@@ -52,7 +52,7 @@ b = g.map(lambda s: s.split(' ')).map(lambda row: (int(row[0]), int(row[1]), flo
 
 #am =a.map(lambda c: (c, 1))
 
-a_rows = a.filter(lambda x: x[1] == 0).map(lambda c: 1).reduce(lambda a, b: (1+b))
+#a_rows = a.filter(lambda x: x[1] == 0).map(lambda c: 1).reduce(lambda a, b: (1+b))
 
 #a_rows = am.reduce(lambda a, b: ((a+b) if a[0][0] == 0 else b))
 #a_rows = am.reduceByKey(lambda a, b: (a+b))
@@ -69,7 +69,6 @@ r2 = r2.sortByKey()
 #Change: zip r1 & r2 as rdds
 #zc = r1.join(r2)
 #zc = r1.zip(r2)
-
 
 # Pair the elements
 z = zip(r1.collect(), r2.collect())
