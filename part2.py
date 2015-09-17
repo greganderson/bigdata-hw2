@@ -1,6 +1,5 @@
 import sys
 from pyspark import SparkContext, SparkConf
-from numpy import matrix, array, empty
 
 ### CONFIGURATION ###
 
@@ -11,6 +10,38 @@ conf.set("spark.executor.memory", "4g")
 
 sc = SparkContext(conf=conf)
 
+
+#### CODE STARTS ###
+
+
+def dot_product(x):
+	a = x[1][0]
+	b = x[1][1]
+	total = 0
+	for i in range(len(a)):
+		total += a[i] * b[i]
+	return (x[0], total)
+
+if len(sys.argv) != 5:
+	print 'Invalid arguments.'
+	print 'Usage: spark-submit part1.py <matrix_file_1> <matrix_1_dimensions> <matrix_file_2> <matrix_2_dimensions>'
+	exit(1)
+
+file1 = sys.argv[1]
+
+f = sc.textFile(file1)
+g = sc.textFile(file1)
+
+dim1 = sys.argv[2]
+dim2 = sys.argv[2]
+dim1 = dim1.replace('K', '000')
+dim2 = dim2.replace('K', '000')
+a_rows = int(dim1[:dim1.find('x')])
+b_cols = int(dim2[dim2.find('x')+1:])
+
+
+### Compute A^2
+
 # Split then convert strings to numbers
 a = f.map(lambda s: s.split(' ')).map(lambda row: (int(row[0]), int(row[1]), float(row[2])))
 b = g.map(lambda s: s.split(' ')).map(lambda row: (int(row[0]), int(row[1]), float(row[2])))
@@ -19,15 +50,19 @@ b = g.map(lambda s: s.split(' ')).map(lambda row: (int(row[0]), int(row[1]), flo
 r1 = a.flatMap(lambda (i, j, value): [((i, k), value) for k in range(b_cols)])
 r2 = b.flatMap(lambda (j, k, value): [((i, k), value) for i in range(a_rows)])
 
-# Pair the elements
-z = zip(r1.sortByKey().collect(), r2.sortByKey().collect())
-zc = sc.parallelize(z)
+x = r1.groupByKey().map(lambda (x, y): (x, list(y)))
+y = r2.groupByKey().map(lambda (x, y): (x, list(y)))
+z = x.join(y)
 
-# Compute dot product
-a = zc.map(lambda (x, y): (x[0], x[1]*y[1]))
-answer = a.reduceByKey(lambda x, y: x+y)
+answer = z.map(dot_product)
+
+
+### Add A
+
+
 
 
 r = answer.sortByKey().collect()
 with open('result.txt', 'w') as fl:
 	fl.write(str(r))
+#answer.saveAsTextFile('result')
