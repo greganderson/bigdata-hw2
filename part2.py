@@ -73,26 +73,3 @@ if i.count() == 0:
 	print 'Shallow'
 else:
 	print 'Not shallow'
-
-
-#r = answer.sortByKey().collect()
-#with open('result.txt', 'w') as fl:
-	#fl.write(str(r))
-#answer.saveAsTextFile('result')
-
-
-
-
-
-
-
-
-
-
-
-
-
-### Get dimensions
-
-#g = f.map(lambda x: x.split(' ')).map(lambda x: (int(x[0]), int(x[1])))
-#g.reduce(lambda x, y: (max(x[0], y[0]), max(x[1], y[1])))
