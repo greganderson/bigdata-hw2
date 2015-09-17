@@ -59,7 +59,14 @@ answer = z.map(dot_product)
 
 ### Add A
 
+c = a.map(lambda (x, y, v): ((x, y), v))
+d = c.join(answer)
+e = d.map(lambda (k, v): (k, v[0]+v[1]))
 
+
+### Find a zero
+
+e.values()
 
 
 r = answer.sortByKey().collect()
