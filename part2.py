@@ -18,13 +18,14 @@ def dot_product(x):
 	a = x[1][0]
 	b = x[1][1]
 	total = 0
-	for i in range(len(a)):
+	length = min(len(a), len(b))
+	for i in range(length):
 		total += a[i] * b[i]
 	return (x[0], total)
 
-if len(sys.argv) != 5:
+if len(sys.argv) != 3:
 	print 'Invalid arguments.'
-	print 'Usage: spark-submit part1.py <matrix_file_1> <matrix_1_dimensions> <matrix_file_2> <matrix_2_dimensions>'
+	print 'Usage: spark-submit part1.py <graph_file> <graph_dimensions>'
 	exit(1)
 
 file1 = sys.argv[1]
@@ -66,10 +67,32 @@ e = d.map(lambda (k, v): (k, v[0]+v[1]))
 
 ### Find a zero
 
-e.values()
+h = e.values()
+i = h.filter(lambda x: x == 0)
+if i.count() == 0:
+	print 'Shallow'
+else:
+	print 'Not shallow'
 
 
-r = answer.sortByKey().collect()
-with open('result.txt', 'w') as fl:
-	fl.write(str(r))
+#r = answer.sortByKey().collect()
+#with open('result.txt', 'w') as fl:
+	#fl.write(str(r))
 #answer.saveAsTextFile('result')
+
+
+
+
+
+
+
+
+
+
+
+
+
+### Get dimensions
+
+#g = f.map(lambda x: x.split(' ')).map(lambda x: (int(x[0]), int(x[1])))
+#g.reduce(lambda x, y: (max(x[0], y[0]), max(x[1], y[1])))
